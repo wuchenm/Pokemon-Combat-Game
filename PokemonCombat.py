@@ -321,7 +321,7 @@ def start_prebattle(player, rival):
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-        pygame.time.delay(200)  # Delay in milliseconds
+        pygame.time.delay(200)  # Delay in milliseconds for event
 
     return 'player_turn'
     
