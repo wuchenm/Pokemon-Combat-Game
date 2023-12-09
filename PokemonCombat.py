@@ -302,7 +302,7 @@ def start_prebattle(player, rival):
     player.x, player.y = 100, game_height - player.image.get_height() - 80
     rival.x, rival.y = game_width - rival.image.get_width() - 100, 30
     
-    # Update HP bar positions
+    # Update HP bar positions in the screen
     player.hp_x, player.hp_y = game_width - 210, player.y + 70  
     rival.hp_x, rival.hp_y = rival.x - 160, rival.y + 60    
     
@@ -311,8 +311,18 @@ def start_prebattle(player, rival):
 
     display_message(f"A wild {rival.name} appears!")
     pygame.display.update()
-    clock.tick(2)
+    clock.tick(3)
     
+# Introduce a delay with event handling
+    delay_time = 2  # Set the delay time in seconds
+    start_time = pygame.time.get_ticks()
+    while pygame.time.get_ticks() - start_time < delay_time * 1000:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+        pygame.time.delay(200)  # Delay in milliseconds
+
     return 'player_turn'
     
 def handle_rival_turn(player_pokemon, rival_pokemon):
@@ -535,11 +545,11 @@ while game_status != 'quit':
 
     if game_status == 'rival_turn':
         game_status = handle_rival_turn(player_pokemon, rival_pokemon)
-        time.sleep(2)
+        time.sleep(1.5)
 
     if game_status == 'end_battle':
         game_status = check_battle_end(player_pokemon, rival_pokemon)
-        time.sleep(2)
+        time.sleep(1.5)
 
     if game_status == 'gameover':
         display_message("Game Over! Press 'Y' to play again, 'N' to quit")
