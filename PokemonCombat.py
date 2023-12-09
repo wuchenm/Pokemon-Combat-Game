@@ -249,7 +249,7 @@ def display_message(message):
     game.blit(text, text_rect)
     pygame.display.update()
 
-def create_button(width, height, left, top, text_cx, text_cy, label):
+def create_button(width, height, left, top, text_cx, text_cy, label, border_width=3):
     '''
     Creates a button with the specified properties and label text.
     Arguments:
@@ -260,20 +260,27 @@ def create_button(width, height, left, top, text_cx, text_cy, label):
     - text_cx (int): The x-coordinate position of the center of the label text.
     - text_cy (int): The y-coordinate position of the center of the label text.
     - label (str): The text to display on the button.
+    - border_width (int): The width of the button's border.
     Returns:
     - pygame.Rect: The rectangular object representing the button's position and dimensions.
     '''
     mouse_cursor = pygame.mouse.get_pos()
-    button = Rect(left, top, width, height)
-    if button.collidepoint(mouse_cursor):
-        pygame.draw.rect(game, gold, button)
-    else:
-        pygame.draw.rect(game, white, button)
+    button_rect = Rect(left, top, width, height)
+    
+    # Draw the border rectangle
+    pygame.draw.rect(game, black, button_rect, border_width)
+    
+    # Draw the button rectangle inside it
+    inner_rect = button_rect.inflate(-border_width*2, -border_width*2)  # Adjust the size for the border
+    pygame.draw.rect(game, gold if button_rect.collidepoint(mouse_cursor) else white, inner_rect)
+    
+    # Draw the text on the button
     font = pygame.font.Font(pygame.font.get_default_font(), 16)
     text = font.render(label, True, black)
-    text_rect = text.get_rect(center = (text_cx, text_cy))
+    text_rect = text.get_rect(center=(text_cx, text_cy))
     game.blit(text, text_rect)
-    return button
+    
+    return button_rect
 
 def draw_highlighted_box(pokemon, game_display):
     '''
@@ -397,7 +404,8 @@ def draw_game(game_status, pokemons, player_pokemon, rival_pokemon):
     - player_pokemon (Pokemon): The player's Pokemon.
     - rival_pokemon (Pokemon): The rival's Pokemon.
     '''
-    game.fill(white)  # Fills the background with white
+    game.fill(grey)  # Fills the background with grey
+
     if game_status == 'select pokemon':
         highlighted_pokemon = None
         for pokemon in pokemons:
@@ -416,7 +424,7 @@ def draw_game(game_status, pokemons, player_pokemon, rival_pokemon):
         # Adjust the button placement and include the number of potions in the label
         button_y = player_pokemon.y + player_pokemon.image.get_height() + 20  # Adjust this value as needed
         fight_button = create_button(100, 50, 50, button_y, 100, button_y + 25, "Fight")
-        potion_button = create_button(100, 50, 200, button_y, 250, button_y + 25, f"Use Potion ({player_pokemon.num_potions})")
+        potion_button = create_button(100, 50, 200, button_y, 250, button_y + 25, f"Potion ({player_pokemon.num_potions})")
     elif game_status == 'select_move':
         # Draw player's and rival's Pokémon and health bars
         player_pokemon.draw(game)
@@ -425,8 +433,8 @@ def draw_game(game_status, pokemons, player_pokemon, rival_pokemon):
         rival_pokemon.draw_hp(game)
     
         # Define the position for the move buttons box
-        move_box_top = game_height - 100  # Set this to the desired distance from the bottom of the window
-        move_box_height = 90  # Set this to the desired height of the move buttons box
+        move_box_top = game_height - 100 
+        move_box_height = 90  
     
         # Draw a background rectangle for the move buttons
         pygame.draw.rect(game, grey, (0, move_box_top, game_width, move_box_height))
@@ -548,16 +556,23 @@ while game_status != 'quit':
                             game_status = handle_player_turn(player_pokemon, rival_pokemon, move)
                             break
 
+    if game_status == 'select pokemon' and not pygame.mixer.music.get_busy():
+        # Start selection music only if it's not already playing
+        pygame.mixer.music.load('Intro.mp3')  # Make sure 'Intro.mp3' is the correct path
+        pygame.mixer.music.play(-1)  # makes the music loop indefinitely
+
     if game_status == 'rival_turn':
         game_status = handle_rival_turn(player_pokemon, rival_pokemon)
         time.sleep(1.5)
 
     if game_status == 'end_battle':
+        # Ending music
+        pygame.mixer.music.load('PokemonEndMusic.mp3') 
+        pygame.mixer.music.play(-1)  # Play the music indefinitely
         game_status = check_battle_end(player_pokemon, rival_pokemon)
         time.sleep(1.5)
 
     if game_status == 'gameover':
-        pygame.mixer.music.stop() # Stops the music when the game is over
         display_message("Game Over! Press 'Y' to play again, 'N' to quit")
         pygame.display.update()
         continue
