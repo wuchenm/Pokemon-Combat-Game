@@ -13,6 +13,7 @@ from urllib.request import urlopen # To open URLs
 
 pygame.init()
 clock = pygame.time.Clock()
+pygame.mixer.init() # Initialize the mixel module
 
 game_width = 500
 game_height = 500
@@ -298,6 +299,10 @@ def start_prebattle(player, rival):
     player.set_moves()
     rival.set_moves()
 
+    # Start background music at the beginning of the combat
+    pygame.mixer.music.load('PokemonCombatMusic.mp3') 
+    pygame.mixer.music.play(-1)  # Play the music indefinitely
+
     # Adjust the positions for the pre-battle
     player.x, player.y = 100, game_height - player.image.get_height() - 80
     rival.x, rival.y = game_width - rival.image.get_width() - 100, 30
@@ -552,6 +557,7 @@ while game_status != 'quit':
         time.sleep(1.5)
 
     if game_status == 'gameover':
+        pygame.mixer.music.stop() # Stops the music when the game is over
         display_message("Game Over! Press 'Y' to play again, 'N' to quit")
         pygame.display.update()
         continue
