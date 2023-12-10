@@ -233,6 +233,35 @@ class Pokemon(pygame.sprite.Sprite):
         '''
         return self.rect
 
+class FirePokemon(Pokemon): #didn't want to implement to make the game simple
+    def __init__(self, name, level, x, y):
+        super().__init__(name, level, x, y)
+        self.type = 'fire'
+
+    def special_ability(self):
+        # Define a special ability for fire-type Pokémon
+        print(f"{self.name} used Blaze!")
+
+class WaterPokemon(Pokemon):
+    def __init__(self, name, level, x, y):
+        super().__init__(name, level, x, y)
+        self.type = 'water'
+        # Additional water-specific attributes or methods can be added here
+
+    def special_ability(self):
+        # Define a special ability for water-type Pokémon
+        print(f"{self.name} used Torrent!")
+
+class GrassPokemon(Pokemon):
+    def __init__(self, name, level, x, y):
+        super().__init__(name, level, x, y)
+        self.type = 'grass'
+        # Additional grass-specific attributes or methods can be added here
+
+    def special_ability(self):
+        # Define a special ability for grass-type Pokémon
+        print(f"{self.name} used Overgrow!")
+
 def display_message(message):
     '''
     Displays a message on the game screen
@@ -475,6 +504,8 @@ def reset_game(pokemons, initial_positions, initial_num_potions):
     - initial_positions (dict): A dictionary mapping Pokemon names to their initial positions.
     - initial_num_potions (int): The initial number of potions for a new game.
     '''
+     # Stop any playing music
+    pygame.mixer.music.stop()
     for pokemon_name, position in initial_positions.items():
         for pokemon in pokemons:
             if pokemon.name.lower() == pokemon_name.lower():
@@ -573,6 +604,7 @@ while game_status != 'quit':
         time.sleep(1.5)
 
     if game_status == 'gameover':
+
         display_message("Game Over! Press 'Y' to play again, 'N' to quit")
         pygame.display.update()
         continue
