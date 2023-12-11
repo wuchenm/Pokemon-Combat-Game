@@ -5,6 +5,7 @@ from unittest.mock import patch, Mock
 from PokemonCombat import Move, Pokemon, APIManager, FirePokemon, WaterPokemon, GrassPokemon
 
 class TestMove(unittest.TestCase):
+    
     @patch('PokemonCombat.APIManager.get_move_data')
     def test_move_initialization(self, mock_get_move_data):
         # Mock the API response
