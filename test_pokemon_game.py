@@ -5,7 +5,7 @@ from unittest.mock import patch, Mock
 from PokemonCombat import Move, Pokemon, APIManager, FirePokemon, WaterPokemon, GrassPokemon
 
 class TestMove(unittest.TestCase):
-    
+
     @patch('PokemonCombat.APIManager.get_move_data')
     def test_move_initialization(self, mock_get_move_data):
         # Mock the API response
@@ -22,6 +22,20 @@ class TestMove(unittest.TestCase):
         self.assertEqual(move.name, "tackle")
         self.assertEqual(move.power, 40)
         self.assertEqual(move.type, "normal")
+
+    @patch('PokemonCombat.APIManager.get_move_data')
+    def test_different_move_types(self, mock_get_move_data):
+        # Mock different move types
+        mock_get_move_data.side_effect = [
+            {'name': "flamethrower", 'power': 90, 'type': {'name': "fire"}},
+            {'name': "surf", 'power': 90, 'type': {'name': "water"}}
+        ]
+
+        fire_move = Move("fire move URL")
+        water_move = Move("water move URL")
+
+        self.assertEqual(fire_move.type, "fire")
+        self.assertEqual(water_move.type, "water")
 
 class TestPokemon(unittest.TestCase):
     '''
@@ -72,7 +86,7 @@ class TestAPIManager(unittest.TestCase):
         self.assertEqual(result['name'], "pikachu")
 
     @patch('requests.get')
-    def test_get_move_data_success(self, mock_get):
+    def test_get_move_data(self, mock_get):
         # Mock a API response for move data
         mock_get.return_value = unittest.mock.Mock(status_code=200, json=lambda: {"name": "tackle", "power": 40})
         result = APIManager.get_move_data("http://example.com/move/tackle")
