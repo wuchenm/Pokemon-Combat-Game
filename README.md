@@ -5,7 +5,7 @@ This is my final project for 2140 Computing fundamentals class
 To fully run the program, it requires...
 - Install pygame (pip3 install pygame)
 - Install requests (pip3 install requests)
-- Should also install Certificates.command, this is done directly on your computer, locate the python install folder and then run certificates.command,should be a file names "Install Certificated.command" then double click it (you should see messages in the terminal indicating the progress of installation)
+- Should also install Certificates.command, this is done directly on your computer, locate the python install folder and then run certificates.command, should be a file named "Install Certificated.command" then double click it (you should see messages in the terminal indicating the progress of installation)
 - Make sure to install all the content from github all mp3 files so the game can run (Intro, PokemonCombatMusic and PokemonEndMusic mp3 files)
 
 # How to run the program
