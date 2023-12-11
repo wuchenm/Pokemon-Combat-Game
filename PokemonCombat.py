@@ -242,7 +242,6 @@ class WaterPokemon(Pokemon):
     def __init__(self, name, level, x, y):
         super().__init__(name, level, x, y)
         self.type = 'water'
-        # Additional water-specific attributes or methods can be added here
 
     def special_ability(self):
         # Define a special ability for water-type Pokémon
@@ -252,7 +251,6 @@ class GrassPokemon(Pokemon):
     def __init__(self, name, level, x, y):
         super().__init__(name, level, x, y)
         self.type = 'grass'
-        # Additional grass-specific attributes or methods can be added here
 
     def special_ability(self):
         # Define a special ability for grass-type Pokémon
@@ -585,7 +583,7 @@ while game_status != 'quit':
 
     if game_status == 'select pokemon' and not pygame.mixer.music.get_busy():
         # Start selection music only if it's not already playing
-        pygame.mixer.music.load('Intro.mp3')  # Make sure 'Intro.mp3' is the correct path
+        pygame.mixer.music.load('Intro.mp3')  
         pygame.mixer.music.play(-1)  # makes the music loop indefinitely
 
     if game_status == 'rival_turn':
