@@ -80,6 +80,5 @@ class TestAPIManager(unittest.TestCase):
         self.assertEqual(result['name'], "tackle")
         self.assertEqual(result['power'], 40)
 
-
 if __name__ == '__main__':
     unittest.main()
