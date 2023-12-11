@@ -9,7 +9,7 @@ To fully run the program, it requires...
 - Make sure to install all the content from github all mp3 files so the game can run (Intro, PokemonCombatMusic and PokemonEndMusic mp3 files)
 
 # How to run the program
-Press the run button and play the game as normal. After running the program a new window should be opened with the game. Initially are the three pokemons which the user can pick and also some music in the background.
+Press the run button and play the game as normal. After running the program a new window should be opened with the game. Initially there are three pokemons which the user can pick and also some music in the background.
 
 # "Limitation" IMPORTANT:
 Sometimes the click is bugged, so there will be games in which you will only have to click once and it will play normally. However, there will be some games where you will have to DOUBLE-Click so the game reads. (I tried to fix it in the code with click delays, times and updates but still buggy)
