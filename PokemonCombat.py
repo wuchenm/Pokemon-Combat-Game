@@ -1,7 +1,3 @@
-'''
-Should install pip3 install pygame / requests
-Should also install Certificates.command
-'''
 import pygame 
 from pygame.locals import *
 import time
