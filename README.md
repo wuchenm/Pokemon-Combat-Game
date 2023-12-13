@@ -14,4 +14,8 @@ Press the run button and play the game as normal. After running the program a ne
 # "Limitation" IMPORTANT:
 Sometimes the click is bugged, so there will be games in which you will only have to click once and it will play normally. However, there will be some games where you will have to DOUBLE-Click so the game reads. (I tried to fix it in the code with click delays, times and updates but still buggy)
 
-# Dependencies: None
+# Dependencies:
+- Install pygame (pip3 install pygame)
+- Install requests (pip3 install requests)
+- Should also install Certificates.command
+And install all the files from the repository
