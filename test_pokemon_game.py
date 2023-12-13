@@ -3,6 +3,7 @@ from unittest import TestCase, mock
 import pygame
 from unittest.mock import patch, Mock
 from PokemonCombat import Move, Pokemon, APIManager, FirePokemon, WaterPokemon, GrassPokemon
+from PokemonCombat import handle_rival_turn, handle_player_turn, check_battle_end
 
 class TestMove(unittest.TestCase):
 
@@ -94,6 +95,60 @@ class TestAPIManager(unittest.TestCase):
         self.assertIsNotNone(result)
         self.assertEqual(result['name'], "tackle")
         self.assertEqual(result['power'], 40)
+
+# Mock classes and functions for some tests of the actions in the game
+class MockMove:
+    def __init__(self, name, power):
+        self.name = name
+        self.power = power
+
+class MockPokemon:
+    def __init__(self, name, current_hp, moves):
+        self.name = name
+        self.current_hp = current_hp
+        self.moves = moves
+        self.max_hp = current_hp
+
+    def perform_attack(self, other, move):
+        # Simplified attack logic for testing
+        other.current_hp -= move.power
+        if other.current_hp < 0:
+            other.current_hp = 0
+
+    def take_damage(self, damage):
+        self.current_hp -= damage
+        if self.current_hp < 0:
+            self.current_hp = 0
+
+class TestPokemonBattle(unittest.TestCase):
+
+    @patch('PokemonCombat.display_message')
+    def test_handle_rival_turn(self, mock_display_message):
+        player = MockPokemon('Pikachu', 100, [])
+        rival = MockPokemon('Charmander', 100, [MockMove('Tackle', 10)])
+        result = handle_rival_turn(player, rival)
+        self.assertTrue(player.current_hp < 100)
+        self.assertIn(result, ['player_turn', 'end_battle'])
+
+    @patch('PokemonCombat.display_message')
+    def test_handle_player_turn(self, mock_display_message):
+        player = MockPokemon('Pikachu', 100, [MockMove('Thunderbolt', 20)])
+        rival = MockPokemon('Charmander', 100, [])
+        result = handle_player_turn(player, rival, player.moves[0])
+        self.assertTrue(rival.current_hp < 100)
+        self.assertIn(result, ['rival_turn', 'end_battle'])
+
+    @patch('PokemonCombat.display_message')
+    def test_check_battle_end(self, mock_display_message):
+        player = MockPokemon('Pikachu', 0, [])
+        rival = MockPokemon('Charmander', 100, [])
+        result = check_battle_end(player, rival)
+        self.assertEqual(result, 'gameover')
+
+        player.current_hp = 100
+        rival.current_hp = 0
+        result = check_battle_end(player, rival)
+        self.assertEqual(result, 'gameover')
 
 if __name__ == '__main__':
     unittest.main()

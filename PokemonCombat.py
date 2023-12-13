@@ -256,6 +256,8 @@ class GrassPokemon(Pokemon):
         # Define a special ability for grass-type Pokémon
         print(f"{self.name} used Overgrow!")
 
+# Could add more types of pokemons for the future...
+
 def display_message(message):
     '''
     Displays a message on the game screen
@@ -439,7 +441,7 @@ def draw_game(game_status, pokemons, player_pokemon, rival_pokemon):
             draw_highlighted_box(highlighted_pokemon, game)
     
     elif game_status == 'player_turn':
-        # Draw player's and rival's Pokémon and health bars
+        # Draw player's and rival's Pokemon and health bars
         player_pokemon.draw(game)
         rival_pokemon.draw(game)
         player_pokemon.draw_hp(game)
@@ -474,7 +476,7 @@ def draw_game(game_status, pokemons, player_pokemon, rival_pokemon):
             create_button(button_width, button_height, button_x, button_y, button_x + button_width / 2, button_y + button_height / 2, move.name.capitalize())
 
     elif game_status in ['prebattle', 'rival_turn', 'end_battle']:
-        # Draw player's and rival's Pokémon and health bars
+        # Draw player's and rival's Pokemon and health bars
         player_pokemon.draw(game)
         rival_pokemon.draw(game)
         player_pokemon.draw_hp(game)
