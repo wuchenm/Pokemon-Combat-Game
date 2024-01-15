@@ -1,5 +1,4 @@
-# Final_Project---2140-Computing-Fundamentals
-This is my final project for 2140 Computing fundamentals class
+A simple Pokemon Combat game made in Python 
 
 # Important Notes:
 To fully run the program, it requires...
